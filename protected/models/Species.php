@@ -67,7 +67,9 @@ class Species extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array( 'books' => array(self::HAS_MANY, 'Book', 'speciesId'),
+		return array(
+				'numbers' => array(self::HAS_MANY, 'SpeciesNumber', 'speciesId'),
+				'books' => array(self::HAS_MANY, 'Book', 'through' => 'numbers'),
 				'speciesComments' => array(self::HAS_MANY, 'SpeciesComment', 'speciesId'),
 				'courses' => array(self::MANY_MANY, 'Course', 'course_species(speciesId, courseId)')
 		);

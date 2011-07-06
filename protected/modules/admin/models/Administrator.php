@@ -57,7 +57,8 @@ class Administrator extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array('creator' => array(self::BELONGS_TO, 'Administrator', 'creatorId'),
+		return array(
+			'creator' => array(self::BELONGS_TO, 'Administrator', 'creatorId'),
 				'roles' => array(self::MANY_MANY, 'Role', 'administrator_role(administratorId, roleId)'),
 				'creations' => array(self::HAS_MANY, 'Administrator', 'creatorId'),
 				'orders' => array(self::HAS_MANY, 'Order', 'administratorId'),
