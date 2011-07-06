@@ -5,8 +5,10 @@
  *
  * The followings are the available columns in table 'inventory':
  * @property string $id
+ * @property string $name
  * @property string $address
  * @property string $contact
+ * @property string $description
  * @property string $setup
  * @property string $expiration
  * @property string $created
@@ -39,12 +41,12 @@ class Inventory extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('created, updated', 'required'),
-			array('address, contact', 'length', 'max'=>255),
-			array('setup, expiration', 'safe'),
+			array('name, created, updated', 'required'),
+			array('name, address, contact', 'length', 'max'=>255),
+			array('description, setup, expiration', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, address, contact, setup, expiration, created, updated', 'safe', 'on'=>'search'),
+			array('id, name, address, contact, description, setup, expiration, created, updated', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -68,8 +70,10 @@ class Inventory extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
+			'name' => 'Name',
 			'address' => 'Address',
 			'contact' => 'Contact',
+			'description' => 'Description',
 			'setup' => 'Setup',
 			'expiration' => 'Expiration',
 			'created' => 'Created',
@@ -89,8 +93,10 @@ class Inventory extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
+		$criteria->compare('name',$this->name,true);
 		$criteria->compare('address',$this->address,true);
 		$criteria->compare('contact',$this->contact,true);
+		$criteria->compare('description',$this->description,true);
 		$criteria->compare('setup',$this->setup,true);
 		$criteria->compare('expiration',$this->expiration,true);
 		$criteria->compare('created',$this->created,true);

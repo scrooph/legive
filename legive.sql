@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 05, 2011 at 06:41 PM
+-- Generation Time: Jul 06, 2011 at 04:59 AM
 -- Server version: 5.5.8
 -- PHP Version: 5.3.5
 
@@ -514,10 +514,10 @@ CREATE TABLE IF NOT EXISTS `role` (
 
 CREATE TABLE IF NOT EXISTS `species` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `serial` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `number` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `series` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `page` int(11) DEFAULT NULL,
-  `language` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
   `author` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `original` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `translator` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -529,7 +529,7 @@ CREATE TABLE IF NOT EXISTS `species` (
   `updated` datetime NOT NULL,
   `image` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `serial` (`serial`),
+  KEY `serial` (`number`),
   KEY `pressId` (`pressId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 

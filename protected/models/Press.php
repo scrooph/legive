@@ -1,23 +1,19 @@
 <?php
 
 /**
- * This is the model class for table "role".
+ * This is the model class for table "press".
  *
- * The followings are the available columns in table 'role':
+ * The followings are the available columns in table 'press':
  * @property string $id
- * @property integer $doAdministrator
- * @property integer $doInventory
- * @property integer $doUser
- * @property integer $doOrder
- * @property integer $doDelivery
+ * @property string $name
  * @property string $created
  * @property string $updated
  */
-class Role extends CActiveRecord
+class Press extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return Role the static model class
+	 * @return Press the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -29,7 +25,7 @@ class Role extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'role';
+		return 'press';
 	}
 
 	/**
@@ -40,11 +36,11 @@ class Role extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('doAdministrator, doInventory, doUser, doOrder, doDelivery, created, updated', 'required'),
-			array('doAdministrator, doInventory, doUser, doOrder','doDelivery', 'numerical', 'integerOnly'=>true),
+			array('name, created, updated', 'required'),
+			array('name', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, doAdministrator, doInventory, doUser, doOrder, doDelivery, created, updated', 'safe', 'on'=>'search'),
+			array('id, name, created, updated', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,7 +51,7 @@ class Role extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array( 'administrators' => array(self::MANY_MANY, 'Administrator', 'administrator_role(roleId, administratorId)')
+		return array(
 		);
 	}
 
@@ -66,11 +62,7 @@ class Role extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'doAdministrator' => 'Do Administrator',
-			'doInventory' => 'Do Inventory',
-			'doUser' => 'Do User',
-			'doOrder' => 'Do Order',
-			'doDelivery' => 'Do Delivery',
+			'name' => 'Name',
 			'created' => 'Created',
 			'updated' => 'Updated',
 		);
@@ -88,11 +80,7 @@ class Role extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('doAdministrator',$this->doAdministrator);
-		$criteria->compare('doInventory',$this->doInventory);
-		$criteria->compare('doUser',$this->doUser);
-		$criteria->compare('doOrder',$this->doOrder);
-		$criteria->compare('doDelivery',$this->doDelivery,true);
+		$criteria->compare('name',$this->name,true);
 		$criteria->compare('created',$this->created,true);
 		$criteria->compare('updated',$this->updated,true);
 

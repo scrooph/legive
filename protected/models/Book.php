@@ -14,7 +14,6 @@
  * @property string $image
  * @property string $status
  * @property string $seed
- * @property string $flower
  */
 class Book extends CActiveRecord
 {
@@ -44,13 +43,13 @@ class Book extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('speciesId, isbn, created, updated, status', 'required'),
-			array('speciesId, seed, flower', 'length', 'max'=>11),
+			array('speciesId, seed', 'length', 'max'=>11),
 			array('damage, status', 'length', 'max'=>32),
 			array('isbn, image', 'length', 'max'=>255),
 			array('description', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, speciesId, damage, isbn, description, created, updated, image, status, seed, flower', 'safe', 'on'=>'search'),
+			array('id, speciesId, damage, isbn, description, created, updated, image, status, seed', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -84,7 +83,6 @@ class Book extends CActiveRecord
 			'image' => 'Image',
 			'status' => 'Status',
 			'seed' => 'Seed',
-			'flower' => 'Flower',
 		);
 	}
 
@@ -109,7 +107,6 @@ class Book extends CActiveRecord
 		$criteria->compare('image',$this->image,true);
 		$criteria->compare('status',$this->status,true);
 		$criteria->compare('seed',$this->seed,true);
-		$criteria->compare('flower',$this->flower,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

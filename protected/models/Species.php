@@ -5,12 +5,16 @@
  *
  * The followings are the available columns in table 'species':
  * @property string $id
+ * @property string $number
  * @property string $name
+ * @property string $series
  * @property integer $page
- * @property string $language
  * @property string $author
+ * @property string $original
  * @property string $translator
+ * @property string $pressId
  * @property integer $price
+ * @property string $seed
  * @property string $description
  * @property string $created
  * @property string $updated
@@ -20,7 +24,7 @@ class Species extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return BookSpecies the static model class
+	 * @return Species the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -43,14 +47,16 @@ class Species extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, author, created, updated', 'required'),
+			array('number, name, author, created, updated', 'required'),
 			array('page, price', 'numerical', 'integerOnly'=>true),
-			array('name, author, translator, image', 'length', 'max'=>255),
-			array('language', 'length', 'max'=>32),
+			array('number', 'length', 'max'=>32),
+			array('name, series, author, original, translator, image', 'length', 'max'=>255),
+			array('pressId', 'length', 'max'=>11),
+			array('seed', 'length', 'max'=>10),
 			array('description', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, name, page, language, author, translator, price, description, created, updated, image', 'safe', 'on'=>'search'),
+			array('id, number, name, series, page, author, original, translator, pressId, price, seed, description, created, updated, image', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -74,12 +80,16 @@ class Species extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
+			'number' => 'Number',
 			'name' => 'Name',
+			'series' => 'Series',
 			'page' => 'Page',
-			'language' => 'Language',
 			'author' => 'Author',
+			'original' => 'Original',
 			'translator' => 'Translator',
+			'pressId' => 'Press',
 			'price' => 'Price',
+			'seed' => 'Seed',
 			'description' => 'Description',
 			'created' => 'Created',
 			'updated' => 'Updated',
@@ -99,12 +109,16 @@ class Species extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
+		$criteria->compare('number',$this->number,true);
 		$criteria->compare('name',$this->name,true);
+		$criteria->compare('series',$this->series,true);
 		$criteria->compare('page',$this->page);
-		$criteria->compare('language',$this->language,true);
 		$criteria->compare('author',$this->author,true);
+		$criteria->compare('original',$this->original,true);
 		$criteria->compare('translator',$this->translator,true);
+		$criteria->compare('pressId',$this->pressId,true);
 		$criteria->compare('price',$this->price);
+		$criteria->compare('seed',$this->seed,true);
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('created',$this->created,true);
 		$criteria->compare('updated',$this->updated,true);
