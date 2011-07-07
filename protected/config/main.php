@@ -14,13 +14,16 @@ return array(
 
 	// autoloading model and component classes
 	'import'=>array(
-		'application.models.*',
-		'application.components.*',
+			'application.models.*',
+            'application.components.*',
 	),
 
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
-		'admin', 'public', 'user',
+		'public', 'user',
+		'admin'=>array(
+			'modules'=>array('rbam'=>array('initialise'=>true)),
+			),
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
 			'password'=>'gii',
@@ -35,6 +38,7 @@ return array(
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
+			//'loginUrl'=>array('/user/login'),
 		),
 		// uncomment the following to enable URLs in path-format
 		
@@ -59,7 +63,10 @@ return array(
 			'password' => '',
 			'charset' => 'utf8',
 		),
-		
+		'authManager'=>array(
+			'class'=>'CDbAuthManager',
+			'connectionID'=>'db',
+		),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
             'errorAction'=>'site/error',
