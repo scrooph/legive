@@ -11,11 +11,13 @@ class DonateController extends Controller
 		$model = new DonateSearchForm;
 		$form = new CForm('public.views.donate.searchForm', $model);
 		if($form->submitted('search') && $form->validate()){
-			$this->redirect(array('donate/showSpecies'));
+			//$this->redirect(array('donate/showSpecies'), array('species'=>$model->search()));
+			$this->render('showSpecies', array('species'=>$model->search()));
 		} else {
 			$this->render('search', array('form'=>$form));
 		}
 	}
+	
 
 
 	// Uncomment the following methods and override them if needed

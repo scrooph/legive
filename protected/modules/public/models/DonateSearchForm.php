@@ -10,8 +10,7 @@ class DonateSearchForm extends CFormModel{
 	}
 
 	public function search(){
-		$species = new Species;
-		$species->findAllByAttributes(array('name'=>$name));
+		$species = Species::Model()->findAllByAttributes(array('name'=>$this->name));
 		return $species;
 	}
 }
