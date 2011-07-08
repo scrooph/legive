@@ -5,7 +5,6 @@
  *
  * The followings are the available columns in table 'species':
  * @property string $id
- * @property string $number
  * @property string $name
  * @property string $series
  * @property integer $page

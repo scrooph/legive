@@ -20,7 +20,7 @@ return array(
 
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
-		'public', 'user',
+		'public','user',
 		'admin'=>array(
 			'modules'=>array('rbam'=>array('initialise'=>true)),
 			),
