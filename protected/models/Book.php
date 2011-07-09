@@ -15,8 +15,10 @@
  * @property string $status
  * @property string $seed
  */
-class Book extends CActiveRecord
+class Book extends DatedActiveRecord
 {
+	public static const DAMAGE_DEFAULT = 'default';
+	public static const STATUS_CREATED = 'created';
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Book the static model class

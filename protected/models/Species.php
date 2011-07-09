@@ -19,7 +19,7 @@
  * @property string $updated
  * @property string $image
  */
-class Species extends CActiveRecord
+class Species extends DatedActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
