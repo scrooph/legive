@@ -14,3 +14,8 @@
 </div>
 
 <?php $this->endWidget(); ?>
+
+<?php
+	$cs = Yii::app()->clientScript;
+	$cs->registerScriptFile(Yii::app()->baseUrl . '/assets/javascript/public/donate.js', CClientScript::POS_HEAD);
+?>
