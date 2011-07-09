@@ -21,33 +21,27 @@ class DonateController extends Controller
 		// }
 	// }
 	
-	// public function actionCreate(){
-		// $model = new DonateSpeciesForm;
-		// if(isset($_POST['DonateSpeciesForm'])){
-			// $model->attributes = $_POST['DonateSpeciesForm'];
-			// echo $model->author;
-			// Yii::app()->end();
-		// }
-		// if(isset($_GET['name'])){
-			// $model->name = CHtml::decode($_GET['name']);
-			// $this->render('createForm', array('model'=>$model));
-		// }
-		
-	// }
+	public function actionBook(){
+		$bookModel = new BookModel;
+		$this->renderPartial('book', array('book'=>$bookModel));
+	}
+
 	public function actionCreate(){
-		$searchModel = new DonateSearchFormModel;
-		if(isset($_POST['ajax']) && $_POST['ajax']==='searchForm' && $searchModel->validate()){
-			$species = Species::Model()->findByAttributes(array('name'=>$searchModel->name));
-			if(empty($species)){
-				$speciesModel = new DonateSpeciesFormModel;
-				$this->renderpartial('species', array('species'=>$speciesModel));
+		$searchModel = new SearchFormModel;
+		if(isset($_POST['ajax']) && $_POST['ajax']==='search-form'){
+			$searchModel->attributes = $_POST['SearchFormModel'];
+			if($searchModel->validate()){
+				$species = Species::Model()->findByAttributes(array('name'=>$searchModel->name));
+				if(empty($species)){
+					$newSpeciesModel = new Species;
+					$this->renderpartial('species', array('species'=>$newSpeciesModel));
+					Yii::app()->end();
+				}
+				$this->renderPartial('species', array('species'=>$species));
 				Yii::app()->end();
 			}
-			$this->renderPartial('species', array('species'=>$species));
-			Yii::app()->end();
-		} else {
-			$this->render('search', array('model'=>$searchModel));
 		}
+		$this->render('search', array('model'=>$searchModel));
 	}
 	
 
