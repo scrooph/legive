@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 class DonateController extends Controller
 {
@@ -7,14 +7,46 @@ class DonateController extends Controller
 		$this->render('index');
 	}
 
-	public function actionSearch(){
-		$model = new DonateSearchForm;
-		$form = new CForm('public.views.donate.searchForm', $model);
-		if($form->submitted('search') && $form->validate()){
-			//$this->redirect(array('donate/showSpecies'), array('species'=>$model->search()));
-			$this->render('showSpecies', array('species'=>$model->search()));
+	// public function actionSearch(){
+		// $model = new DonateSearchForm;
+		// $form = new CForm('public.views.donate.searchForm', $model);
+		// if($form->submitted('search') && $form->validate()){
+			// $species = Species::Model()->findAllByAttributes(array('name'=>$model->name));
+			// if(empty($species)){
+				// $this->redirect(array('donate/create', 'name'=>CHtml::encode($model->name)));
+			// }
+			// $this->render('showSpecies', array('species'=>$species));
+		// } else {
+			// $this->render('search', array('form'=>$form));
+		// }
+	// }
+	
+	// public function actionCreate(){
+		// $model = new DonateSpeciesForm;
+		// if(isset($_POST['DonateSpeciesForm'])){
+			// $model->attributes = $_POST['DonateSpeciesForm'];
+			// echo $model->author;
+			// Yii::app()->end();
+		// }
+		// if(isset($_GET['name'])){
+			// $model->name = CHtml::decode($_GET['name']);
+			// $this->render('createForm', array('model'=>$model));
+		// }
+		
+	// }
+	public function actionCreate(){
+		$searchModel = new DonateSearchFormModel;
+		if(isset($_POST['ajax']) && $_POST['ajax']==='searchForm' && $searchModel->validate()){
+			$species = Species::Model()->findByAttributes(array('name'=>$searchModel->name));
+			if(empty($species)){
+				$speciesModel = new DonateSpeciesFormModel;
+				$this->renderpartial('species', array('species'=>$speciesModel));
+				Yii::app()->end();
+			}
+			$this->renderPartial('species', array('species'=>$species));
+			Yii::app()->end();
 		} else {
-			$this->render('search', array('form'=>$form));
+			$this->render('search', array('model'=>$searchModel));
 		}
 	}
 	
