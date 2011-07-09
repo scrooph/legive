@@ -1,6 +1,6 @@
 <?php
 
-class DonateSearchFormModel extends CFormModel{
+class SearchFormModel extends CFormModel{
 	public $name;
 
 	public function rules(){
