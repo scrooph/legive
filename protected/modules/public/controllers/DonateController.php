@@ -87,7 +87,7 @@ class DonateController extends Controller
 		}
 	}
 
-	}
+	
 	
 
 

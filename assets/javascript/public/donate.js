@@ -12,14 +12,32 @@ legive.donate = {};
 
         checkSpeciesSubmit: function(){
             $('#search-form').bind('submit', function(){
-                var val = $(this).find('#SearchFormModel_name').val().Trim();
+                var speciesName = $(this).find('#SearchFormModel_name').val().Trim();
                 //console.log(val);
                 
-                if (val === ''){
+                if (speciesName === ''){
                     return false;
                 }
+
+                donate.create.speciesSubmit(speciesName);
+                return false;
+            });
+        },
+
+
+        speciesSubmit: function(speciesName){
+
+            var data = {
+                'SearchFormModel[name]'   : speciesName,
+                'ajax'                    : 'search-form'
+            };
+
+            $.post('/legive/index.php/public/donate/create', data, function(data){
+                console.log(data);
             });
         }
+                
+
 
     }
 
