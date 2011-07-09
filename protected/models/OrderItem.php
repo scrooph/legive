@@ -10,7 +10,7 @@
  * @property string $created
  * @property string $updated
  */
-class OrderItem extends CActiveRecord
+class OrderItem extends DatedActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.

@@ -15,7 +15,7 @@
  * @property string $created
  * @property string $updated
  */
-class Order extends CActiveRecord
+class Order extends DatedActiveRecord
 {
 	public static const STATUS_SAVED = 'saved';
 	public static const TYPE_DONATE = 'donate';
@@ -116,7 +116,7 @@ class Order extends CActiveRecord
 	
 	public function scopes(){
 		return array(
-			'current' => array(
+			'saved' => array(
 				'condition'=>'status= '.self::STATUS_SAVED,
 				),
 			);

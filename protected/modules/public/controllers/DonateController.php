@@ -6,25 +6,14 @@ class DonateController extends Controller
 	{
 		$this->render('index');
 	}
-
-	// public function actionSearch(){
-		// $model = new DonateSearchForm;
-		// $form = new CForm('public.views.donate.searchForm', $model);
-		// if($form->submitted('search') && $form->validate()){
-			// $species = Species::Model()->findAllByAttributes(array('name'=>$model->name));
-			// if(empty($species)){
-				// $this->redirect(array('donate/create', 'name'=>CHtml::encode($model->name)));
-			// }
-			// $this->render('showSpecies', array('species'=>$species));
-		// } else {
-			// $this->render('search', array('form'=>$form));
-		// }
-	// }
 	
-	public function actionViewOrder(){
+	public function actionViewsaved(){
+		$user = User::model()->findByPk(Yii::app()->user->id);
+		$this->render('viewCurrent', array('order'=>$user->orders->saved()->find()));
 	}
 	
-	public function actionBook(){
+	
+	public function actionCreateBook(){
 		$bookModel = new BookModel;
 		if(isset($_POST['ajax']) && $_POST['ajax']==='book-form'){
 			$bookModel->attributes = $_POST['BookModel'];
@@ -32,7 +21,8 @@ class DonateController extends Controller
 			$transaction = $connection->beginTransaction();
 			try{
 				$bookModel->save();
-				dealOrderForBook($bookModel);
+				addOrder($bookModel);
+				$transaction->commit();
 
 				echo CJavaScript::encode($bookModel);
 				Yii::app()->end();
@@ -44,49 +34,59 @@ class DonateController extends Controller
 		$this->renderPartial('book', array('book'=>$bookModel));
 	}
 
-	public function actionCreate(){
-		$searchModel = new SearchFormModel;
+	public function actionCreateSpecies(){
 		if(isset($_POST['ajax']) && $_POST['ajax']==='search-form'){
-			$searchModel->attributes = $_POST['SearchFormModel'];
-			if($searchModel->validate()){
-				$species = Species::Model()->findByAttributes(array('name'=>$searchModel->name));
-				if(empty($species)){
-					$newSpeciesModel = new Species;
-					$this->renderpartial('species', array('species'=>$newSpeciesModel));
-					Yii::app()->end();
-				}
-				$this->renderPartial('species', array('species'=>$species));
+			$species = Species::Model()->findByAttributes(array('name'=>$_POST['SearchForm']->name));
+			if(!$species){
+				$species = new Species;
+				$this->renderpartial('species', array('species'=>$species));
 				Yii::app()->end();
 			}
+			$this->renderPartial('species', array('species'=>$species));
+			Yii::app()->end();
 		}
+		if(isset($_POST['ajax']) && $_POST['ajax']==='create-species-form'){
+			$species->attributes = $_POST['SpeciesModel'];
+			if($species->isNew()){
+				$species->save();
+			}
+			$order = prepareOrder();
+			$book = createDefaultBook();
+			$orderItem = createDefaultOrderItem();
+
+		}
+	}
+	public function createDefaultBook(){
+		$book = new Book;
+		$book->damage = Book::DAMAGE_DEFAULT;
+		$book->status = Book::STATUS_CREATED;
+		$book->seed = 1;
+		$book.save();
+		return $book;
+	}
+
+	public function actionCreate(){
+		$searchModel = new SearchFormModel;
 		$this->render('search', array('model'=>$searchModel));
 	}
 	
-	public function assembleUserInfo($model){
-		$model->id = Yii::app()->user->id;
+	public function createDefaultOrderItem(){
+		$orderItem = new OrderItem;
+		$orderItem->save();
+		return $orderItem;
 	}
-	
-//	public function dealOrderForBook($book){
-//		prepareOrder();
-//		$orderItem = new OrderItem;
-//		$orderItem->cr
-
-//	}
 
 	public function prepareOrder(){
 		$user = User::Model()->findByPk(Yii::app()->user->id);
-		$currentOrder = Order::Model()->current()->find();
-		if(!$currentOrder){
-			$currentOrder = new Order;
-			$currentOrder->userId = $user->id;
-			$currentOrder->created = date('Y-m-d H:i:s');
-			$currentOrder->updated = date('Y-m-d H:i:s');
-			$currentOrder->status = Order::STATUS_SAVED;
-			$currentOrder->type = Order::TYPE_DONATE;
-			$currentOrder->save();
+		$order = Order::Model()->saved()->find();
+		if(!$order){
+			$order = new Order;
+			$order->userId = $user->id;
+			$order->status = Order::STATUS_SAVED;
+			$order->type = Order::TYPE_DONATE;
+			$order->save();
 		}
-	}
-
+		return $order;
 	}
 	
 
