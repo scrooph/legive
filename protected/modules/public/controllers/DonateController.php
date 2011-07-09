@@ -21,8 +21,26 @@ class DonateController extends Controller
 		// }
 	// }
 	
+	public function actionViewOrder(){
+	}
+	
 	public function actionBook(){
 		$bookModel = new BookModel;
+		if(isset($_POST['ajax']) && $_POST['ajax']==='book-form'){
+			$bookModel->attributes = $_POST['BookModel'];
+			$connection = $bookModel->getDbConnection();
+			$transaction = $connection->beginTransaction();
+			try{
+				$bookModel->save();
+				dealOrderForBook($bookModel);
+
+				echo CJavaScript::encode($bookModel);
+				Yii::app()->end();
+			} catch(Exception $e){
+				$transaction->rollBack();
+				throw new CHttpException(500);
+			}
+		}
 		$this->renderPartial('book', array('book'=>$bookModel));
 	}
 
@@ -42,6 +60,33 @@ class DonateController extends Controller
 			}
 		}
 		$this->render('search', array('model'=>$searchModel));
+	}
+	
+	public function assembleUserInfo($model){
+		$model->id = Yii::app()->user->id;
+	}
+	
+//	public function dealOrderForBook($book){
+//		prepareOrder();
+//		$orderItem = new OrderItem;
+//		$orderItem->cr
+
+//	}
+
+	public function prepareOrder(){
+		$user = User::Model()->findByPk(Yii::app()->user->id);
+		$currentOrder = Order::Model()->current()->find();
+		if(!$currentOrder){
+			$currentOrder = new Order;
+			$currentOrder->userId = $user->id;
+			$currentOrder->created = date('Y-m-d H:i:s');
+			$currentOrder->updated = date('Y-m-d H:i:s');
+			$currentOrder->status = Order::STATUS_SAVED;
+			$currentOrder->type = Order::TYPE_DONATE;
+			$currentOrder->save();
+		}
+	}
+
 	}
 	
 

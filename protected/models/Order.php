@@ -17,6 +17,9 @@
  */
 class Order extends CActiveRecord
 {
+	public static const STATUS_SAVED = 'saved';
+	public static const TYPE_DONATE = 'donate';
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Order the static model class
@@ -110,4 +113,12 @@ class Order extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	
+	public function scopes(){
+		return array(
+			'current' => array(
+				'condition'=>'status= '.self::STATUS_SAVED,
+				),
+			);
+			
 }

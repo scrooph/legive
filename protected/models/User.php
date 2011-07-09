@@ -1,20 +1,6 @@
 <?php
 
-/**
- * This is the model class for table "user".
- *
- * The followings are the available columns in table 'user':
- * @property string $id
- * @property string $username
- * @property string $password
- * @property string $email
- * @property string $cell
- * @property string $seed
- * @property string $flower
- * @property string $created
- * @property string $updated
- * @property integer $enrollment
- */
+
 class User extends CActiveRecord
 {
 	/**
