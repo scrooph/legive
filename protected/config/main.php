@@ -60,7 +60,7 @@ return array(
 			'connectionString' => 'mysql:host=localhost;dbname=legive',
 			'emulatePrepare' => true,
 			'username' => 'root',
-			'password' => '',
+			'password' => '111111',
 			'charset' => 'utf8',
 		),
 		'authManager'=>array(

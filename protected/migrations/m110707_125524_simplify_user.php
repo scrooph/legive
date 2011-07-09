@@ -1,6 +1,6 @@
 <?php
 
-class m110707_125524_setup_user_module extends CDbMigration
+class m110707_125524_simplify_user extends CDbMigration
 {
 	// public function up()
 	// {

@@ -36,7 +36,8 @@ class DonateController extends Controller
 
 	public function actionCreateSpecies(){
 		if(isset($_POST['ajax']) && $_POST['ajax']==='search-form'){
-			$species = Species::Model()->findByAttributes(array('name'=>$_POST['SearchForm']->name));
+			$jjj = $_POST['SearchFormModel']['name'];
+			$species = Species::Model()->findByAttributes(array('name'=>$_POST['SearchFormModel']['name']));
 			if(!$species){
 				$species = new Species;
 				$this->renderpartial('species', array('species'=>$species));

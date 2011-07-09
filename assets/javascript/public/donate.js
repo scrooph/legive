@@ -32,7 +32,7 @@ legive.donate = {};
                 'ajax'                    : 'search-form'
             };
 
-            $.post('/legive/index.php/public/donate/create', data, function(data){
+            $.post('/legive/index.php/public/donate/CreateSpecies', data, function(data){
                 console.log(data);
             });
         }
