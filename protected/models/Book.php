@@ -114,4 +114,12 @@ class Book extends DatedActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	
+	public static function createDefaultBook(){
+		$book = new Book;
+		$book->damage = Book::DAMAGE_DEFAULT;
+		$book->status = Book::STATUS_CREATED;
+		$book->seed = 1;
+		return $book;
+	}
 }

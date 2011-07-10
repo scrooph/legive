@@ -8,87 +8,76 @@ class DonateController extends Controller
 	}
 	
 	public function actionViewsaved(){
-		$user = User::model()->findByPk(Yii::app()->user->id);
-		$this->render('viewCurrent', array('order'=>$user->orders->saved()->find()));
+		$order = $this->prepareOrder();
+		$dataProvider=new CActiveDataProvider('OrderItem', array(
+			'criteria'=>array(
+				'contition'=>'orderId='.$order.id,
+				'with'=>array('book'),
+				),
+			'pagination'=>array(
+				'pageSize'=>10,
+				),
+			));
+		$this->render('viewSavedOrder', array('dataProvider'=>$dataProvider));
+		// $user = User::model()->findByPk(Yii::app()->user->id);
+		// $this->render('viewSavedOrder', array('order'=>$user->orders->saved()->find()));
 	}
 	
 	
 	public function actionCreateBook(){
 		$bookModel = new BookModel;
-		if(isset($_POST['ajax']) && $_POST['ajax']==='book-form'){
+		if(isset($_POST['ajax']) && $_POST['ajax']==='create-book-form'){
 			$bookModel->attributes = $_POST['BookModel'];
-			$connection = $bookModel->getDbConnection();
-			$transaction = $connection->beginTransaction();
-			try{
-				$bookModel->save();
-				addOrder($bookModel);
-				$transaction->commit();
-
-				echo CJavaScript::encode($bookModel);
-				Yii::app()->end();
-			} catch(Exception $e){
-				$transaction->rollBack();
-				throw new CHttpException(500);
-			}
+			echo $bookModel->save();
+			//echo CJavaScript::encode($bookModel);
+			Yii::app()->end(); 
 		}
 		$this->renderPartial('book', array('book'=>$bookModel));
 	}
 
-	public function actionCreateSpecies(){
-		if(isset($_POST['ajax']) && $_POST['ajax']==='search-form'){
-			$jjj = $_POST['SearchFormModel']['name'];
+	public function actionSearchSpecies(){
+		if(isset($_POST['ajax']) && $_POST['ajax']==='search-species-form'){
 			$species = Species::Model()->findByAttributes(array('name'=>$_POST['SearchFormModel']['name']));
 			if(!$species){
 				$species = new Species;
-				$this->renderpartial('species', array('species'=>$species));
-				Yii::app()->end();
-			}
+			} 
 			$this->renderPartial('species', array('species'=>$species));
 			Yii::app()->end();
 		}
+	}
+	
+	public function actionCreateSpecies(){
+		
 		if(isset($_POST['ajax']) && $_POST['ajax']==='create-species-form'){
 			$species->attributes = $_POST['SpeciesModel'];
 			if($species->isNew()){
 				$species->save();
 			}
-			$order = prepareOrder();
-			$book = createDefaultBook();
-			$orderItem = createDefaultOrderItem();
-
+			$order = $this->findMyOrderByType(Order::TYPE_DONATE);
+			$book = Book::createDefaultBook();
+			$orderItem = new OrderItem;
+			
+			$orderItem->orderId = $order->id;
+			$orderItem->bookId = $book->id;
+			$book->speciesId = $species->id;
+			$book->save(false);
+			$orderItem->save(false);
 		}
-	}
-	public function createDefaultBook(){
-		$book = new Book;
-		$book->damage = Book::DAMAGE_DEFAULT;
-		$book->status = Book::STATUS_CREATED;
-		$book->seed = 1;
-		$book.save();
-		return $book;
 	}
 
 	public function actionCreate(){
-		$searchModel = new SearchFormModel;
-		$this->render('search', array('model'=>$searchModel));
-	}
-	
-	public function createDefaultOrderItem(){
-		$orderItem = new OrderItem;
-		$orderItem->save();
-		return $orderItem;
+		$searchFormModel = new SearchFormModel;
+		$this->render('search', array('model'=>$searchFormModel));
 	}
 
-	public function prepareOrder(){
+	private function findMyOrderByType($type){
 		$user = User::Model()->findByPk(Yii::app()->user->id);
 		$order = Order::Model()->saved()->find();
 		if(!$order){
-			$order = new Order;
+			$order = Order::createDefaultOrder($type);
 			$order->userId = $user->id;
-			$order->status = Order::STATUS_SAVED;
-			$order->type = Order::TYPE_DONATE;
 			$order->save();
 		}
-
-	
 		return $order;
 	}
 	

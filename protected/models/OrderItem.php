@@ -37,8 +37,8 @@ class OrderItem extends DatedActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('orderId, bookId, created, updated', 'required'),
-			array('orderId, bookId', 'length', 'max'=>11),
+			//array('orderId, bookId, created, updated', 'required'),
+			//array('orderId, bookId', 'length', 'max'=>11),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, orderId, bookId, created, updated', 'safe', 'on'=>'search'),

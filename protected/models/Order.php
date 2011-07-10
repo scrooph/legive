@@ -120,5 +120,13 @@ class Order extends DatedActiveRecord
 				'condition'=>'status= '.self::STATUS_SAVED,
 				),
 			);
+	}
+	
+	public function createDefaultOrder($type){
+		$order = new Order;
+		$order->status = Order::STATUS_SAVED;
+		$order->type = $type;
+		return $order;
+	}
 			
 }
