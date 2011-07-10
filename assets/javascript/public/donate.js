@@ -7,8 +7,11 @@ legive.donate = {};
 
     var donate = legive.donate;
 
-    //create action
-    donate.create = {
+    donate= {
+		init: function(){
+			donate.checkSpeciesSubmit();
+
+		},
 
         checkSpeciesSubmit: function(){
             $('#search-form').bind('submit', function(){
@@ -16,7 +19,7 @@ legive.donate = {};
                 //console.log(val);
                 
 				if (speciesName !== ''){
-					donate.create.speciesSubmit(speciesName);
+					donate.speciesSubmit(speciesName);
 				}
 
                 return false;
@@ -28,13 +31,23 @@ legive.donate = {};
 
             var data = {
                 'SearchFormModel[name]'   : speciesName,
-                'ajax'                    : 'search-form'
+                'ajax'                    : 'search-species-form'
             };
 
-            $.post('/legive/index.php/public/donate/CreateSpecies', data, function(data){
-                console.log(data);
+            $.post('/legive/index.php/public/donate/SearchSpecies', data, function(speciesViewData){
+				$('#species-view').html(speciesViewData).css('display', '');
+				donate.showBookDetail();
             });
-        }
+        },
+
+
+		showBookDetail: function(){
+			//add click listener to show-book-detail 
+			$('#show-book-detail').click(function(){
+				$('#book-detail').css('display', '');
+				return false;
+			});
+		}
                 
 
 
@@ -43,7 +56,7 @@ legive.donate = {};
 
 
     $(function(){
-        donate.create.checkSpeciesSubmit();
+        donate.init();
     });
 
 })(jQuery);

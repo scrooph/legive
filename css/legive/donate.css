@@ -1,0 +1,20 @@
+.split-line {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-top: 2px solid #EEE;
+}
+
+
+.species-view {
+	margin-top: 10px;
+}
+
+.species-view p {
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+
+.species-view label {
+	display: block;
+}

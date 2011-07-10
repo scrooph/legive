@@ -1,2 +1,4 @@
 protected/runtime/
 protected/db/testdrive.db
+
+*.swp

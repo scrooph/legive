@@ -37,11 +37,12 @@ class DonateController extends Controller
 
 	public function actionSearchSpecies(){
 		if(isset($_POST['ajax']) && $_POST['ajax']==='search-species-form'){
-			$species = Species::Model()->findByAttributes(array('name'=>$_POST['SearchFormModel']['name']));
+			$speciesName = $_POST['SearchFormModel']['name'];
+			$species = Species::Model()->findByAttributes(array('name'=>$speciesName));
 			if(!$species){
 				$species = new Species;
 			} 
-			$this->renderPartial('species', array('species'=>$species));
+			$this->renderPartial('species', array('species'=>$species, 'speciesName'=>$speciesName));
 			Yii::app()->end();
 		}
 	}
