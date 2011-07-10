@@ -17,8 +17,8 @@
  */
 class Order extends DatedActiveRecord
 {
-	public static const STATUS_SAVED = 'saved';
-	public static const TYPE_DONATE = 'donate';
+	const STATUS_SAVED = 'saved';
+	const TYPE_DONATE = 'donate';
 	
 	/**
 	 * Returns the static model of the specified AR class.
@@ -45,7 +45,7 @@ class Order extends DatedActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('userId, call, administratorId, type, status, created, updated', 'required'),
+			array('userId, type, status', 'required'),
 			array('userId, administratorId', 'length', 'max'=>11),
 			array('type, status', 'length', 'max'=>32),
 			array('message, review', 'safe'),
@@ -117,16 +117,16 @@ class Order extends DatedActiveRecord
 	public function scopes(){
 		return array(
 			'saved' => array(
-				'condition'=>'status= '.self::STATUS_SAVED,
+				'condition'=>'status=:status',
+				'params'=>array(':status'=>self::STATUS_SAVED),
 				),
 			);
 	}
 	
-	public function createDefaultOrder($type){
+	public function createDefaultOrder(){
 		$order = new Order;
 		$order->status = Order::STATUS_SAVED;
-		$order->type = $type;
+		$order->type = Order::TYPE_DONATE;
 		return $order;
-	}
-			
+	}			
 }

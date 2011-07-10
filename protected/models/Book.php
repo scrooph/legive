@@ -17,8 +17,21 @@
  */
 class Book extends DatedActiveRecord
 {
-	public static const DAMAGE_DEFAULT = 'default';
-	public static const STATUS_CREATED = 'created';
+	const DAMAGE_DEFAULT = 'default';
+	const STATUS_CREATED = 'created';
+	
+	public static function getDamages(){
+		return array(
+			'10' => '全新',
+			'9' => '九成新',
+			'8' => '八成新',
+			'7' => '七成新',
+			'6' => '六成新',
+			'5' => '五成新',
+			'4' => '四成新',
+			'3' => '三成新',
+			);
+	}
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Book the static model class
@@ -44,7 +57,7 @@ class Book extends DatedActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('speciesId, isbn, created, updated, status', 'required'),
+			array('speciesId, status', 'required'),
 			array('speciesId, seed', 'length', 'max'=>11),
 			array('damage, status', 'length', 'max'=>32),
 			array('isbn, image', 'length', 'max'=>255),

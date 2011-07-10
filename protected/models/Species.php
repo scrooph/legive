@@ -46,7 +46,7 @@ class Species extends DatedActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('number, name, author, created, updated', 'required'),
+			array('number, name, author', 'required'),
 			array('page, price', 'numerical', 'integerOnly'=>true),
 			array('number', 'length', 'max'=>32),
 			array('name, series, author, original, translator, image', 'length', 'max'=>255),
