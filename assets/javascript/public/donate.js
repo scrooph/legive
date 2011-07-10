@@ -15,11 +15,10 @@ legive.donate = {};
                 var speciesName = $(this).find('#SearchFormModel_name').val().Trim();
                 //console.log(val);
                 
-                if (speciesName === ''){
-                    return false;
-                }
+				if (speciesName !== ''){
+					donate.create.speciesSubmit(speciesName);
+				}
 
-                donate.create.speciesSubmit(speciesName);
                 return false;
             });
         },
