@@ -11,6 +11,26 @@ class DonateController extends Controller
 		echo CJavaScript::encode(Book::getDamages());
 	}
 	
+	public function actionUpdate(){
+		if(isset($_GET['id'])){
+			$orderItem = OrderItem::model()->findByPk($_GET['id']);
+			$this->render('updateOrderItem', array('orderItem'=>$orderItem));
+		}
+	}
+	
+	public function actionDelete(){
+		if(isset($_POST['ajax']) && $_POST['ajax']=''){
+		}
+	}
+	
+	public function actionSubmit(){
+		if(isset($_POST['view-saved-form'])){
+			$order=$this->findMyOrder();
+			$order->status=Order::STATUS_SUBMITTED;
+			$order->save();
+		}
+	}
+	
 	public function actionViewsaved(){
 		$order = $this->findMyOrder();
 		$dataProvider=new CActiveDataProvider('OrderItem', array(
@@ -23,20 +43,25 @@ class DonateController extends Controller
 				),
 			));
 		$this->render('viewSaved', array('dataProvider'=>$dataProvider));
-		// $user = User::model()->findByPk(Yii::app()->user->id);
-		// $this->render('viewSavedOrder', array('order'=>$user->orders->saved()->find()));
 	}
 	
+	public function actionCreateBooks(){
+		if(isset($_POST['ajax']) && $_POST['ajax']==='create-books-form'){
+			$books = CJavaScript::josnDecode($_POST['create-books-form']);
+			foreach($books as $book){
+				$book->save();
+			}
+		}
+	}
 	
 	public function actionCreateBook(){
-		$bookModel = new BookModel;
+		$book = new BookModel;
 		if(isset($_POST['ajax']) && $_POST['ajax']==='create-book-form'){
-			$bookModel->attributes = $_POST['BookModel'];
-			echo $bookModel->save();
-			//echo CJavaScript::encode($bookModel);
-			Yii::app()->end(); 
+			$book->attributes = $_POST['BookModel'];
+			echo $book->save();
+			Yii::app()->end();
 		}
-		$this->renderPartial('book', array('book'=>$bookModel));
+		$this->renderPartial('book', array('book'=>$book));
 	}
 
 	public function actionSearchSpecies(){
@@ -51,21 +76,12 @@ class DonateController extends Controller
 	}
 	
 	public function actionCreateSpecies(){
-		
 		if(isset($_POST['ajax']) && $_POST['ajax']==='create-species-form'){
 			$species->attributes = $_POST['SpeciesModel'];
 			if($species->isNew()){
 				$species->save();
 			}
-			$order = $this->findMyOrderByType(Order::TYPE_DONATE);
-			$book = Book::createDefaultBook();
-			$orderItem = new OrderItem;
-			
-			$orderItem->orderId = $order->id;
-			$orderItem->bookId = $book->id;
-			$book->speciesId = $species->id;
-			$book->save(false);
-			$orderItem->save(false);
+			echo $species->id;
 		}
 	}
 

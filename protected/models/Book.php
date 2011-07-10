@@ -75,7 +75,8 @@ class Book extends DatedActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array( //'species' => array(self::BELONGS_TO, 'Species', 'speciesId'),
+		return array( 
+				'species' => array(self::BELONGS_TO, 'Species', 'speciesId'),
 				'bookComments' => array(self::HAS_MANY, 'BookComment', 'bookId'),
 				'inventoryItems' => array(self::HAS_MANY, 'InventoryItem', 'bookId'),
 				'orderItems' => array(self::HAS_MANY, 'OrderItem', 'bookId')

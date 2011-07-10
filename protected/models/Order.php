@@ -18,7 +18,17 @@
 class Order extends DatedActiveRecord
 {
 	const STATUS_SAVED = 'saved';
+	const STATUS_SUBMITTED = 'submitted';
 	const TYPE_DONATE = 'donate';
+	
+	public static function getStatuses(){
+		return array(
+					'saved'=>'已保存',
+					'submitted'=>'已提交',
+					'approved'=>'已通过',
+					'denied'=>'已拒绝',
+					);
+	}
 	
 	/**
 	 * Returns the static model of the specified AR class.
@@ -64,6 +74,7 @@ class Order extends DatedActiveRecord
 		// class name for the relations automatically generated below.
 		return array( 'user' => array(self::BELONGS_TO, 'User', 'userId'),
 				'orderItems' => array(self::HAS_MANY, 'OrderItem', 'orderId'),
+				'orderItemCount' => array(self::STAT, 'OrderItem', 'orderId'),
 				'administrator' => array(self::BELONGS_TO, 'Administrator', 'administratorId')
 		);
 	}
