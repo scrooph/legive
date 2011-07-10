@@ -7,6 +7,10 @@ class DonateController extends Controller
 		$this->render('index');
 	}
 	
+	public function actionBookDetailDamages(){
+		echo CJavaScript::encode(Book::getDamages());
+	}
+	
 	public function actionViewsaved(){
 		$order = $this->findMyOrder();
 		$dataProvider=new CActiveDataProvider('OrderItem', array(
