@@ -47,7 +47,6 @@ class DonateController extends Controller
 				$species = new Species;
 			} 
 			$this->renderPartial('species', array('species'=>$species, 'speciesName'=>$speciesName));
-			Yii::app()->end();
 		}
 	}
 	
