@@ -2,10 +2,12 @@
 
 class DatedActiveRecord extends CActiveRecord
 {
-	public function beforeSave(){
+	protected function beforeSave(){
 		if($this->isNewRecord){
-			$this->created = new CDbExpression('NOW()');
+			$this->created = date('Y-m-s H:i:s');
+			echo 'bbbbbbbbbbbbbbbbbbbbbbbbbb';
 		}else {
+			echo 'nnnnnnnnnnnnnnnnnnnnnnnnnn';
 			$this->updated = new CDbExpression('NOW()');
 		}
 		

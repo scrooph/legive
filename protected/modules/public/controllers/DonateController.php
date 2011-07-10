@@ -8,17 +8,17 @@ class DonateController extends Controller
 	}
 	
 	public function actionViewsaved(){
-		$order = $this->prepareOrder();
+		$order = $this->findMyOrder();
 		$dataProvider=new CActiveDataProvider('OrderItem', array(
 			'criteria'=>array(
-				'contition'=>'orderId='.$order.id,
+				'condition'=>'orderId='.$order->id,
 				'with'=>array('book'),
 				),
 			'pagination'=>array(
 				'pageSize'=>10,
 				),
 			));
-		$this->render('viewSavedOrder', array('dataProvider'=>$dataProvider));
+		$this->render('viewSaved', array('dataProvider'=>$dataProvider));
 		// $user = User::model()->findByPk(Yii::app()->user->id);
 		// $this->render('viewSavedOrder', array('order'=>$user->orders->saved()->find()));
 	}
@@ -70,11 +70,16 @@ class DonateController extends Controller
 		$this->render('search', array('model'=>$searchFormModel));
 	}
 
-	private function findMyOrderByType($type){
-		$user = User::Model()->findByPk(Yii::app()->user->id);
+	private function findMyOrder(){
+	
+		$user->id = 1;
+	
+		//$user = User::Model()->findByPk(Yii::app()->user->id);
+		
+		
 		$order = Order::Model()->saved()->find();
 		if(!$order){
-			$order = Order::createDefaultOrder($type);
+			$order = Order::createDefaultOrder();
 			$order->userId = $user->id;
 			$order->save();
 		}
